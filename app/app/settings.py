@@ -39,7 +39,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'tracks',
+    'graphene_django',
 ]
+
+GRAPHENE = {
+    'SCHEMA': 'app.schema.schema'
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
