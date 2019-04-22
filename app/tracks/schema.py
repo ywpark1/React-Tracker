@@ -21,7 +21,7 @@ class Query(graphene.ObjectType):
     tracks = graphene.List(TrackType, search=graphene.String())
     likes = graphene.List(LikeType)
 
-    def resolve_tracks(self, info, search):
+    def resolve_tracks(self, info, search=None):
         if search:
             filter = (
                 Q(title__icontains=search) |
