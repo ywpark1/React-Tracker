@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Mutation } from 'react-apollo';
 import { gql } from 'apollo-boost';
@@ -21,6 +21,9 @@ import Gavel from '@material-ui/icons/Gavel';
 import VerifiedUserTwoTone from '@material-ui/icons/VerifiedUserTwoTone';
 
 const Register = ({ classes }) => {
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
@@ -29,45 +32,67 @@ const Register = ({ classes }) => {
         </Avatar>
         <Typography variant="h5">Register</Typography>
 
-        {/* <Mutation>
+        <Mutation mutation={REGISTER_MUTATION}>
           {() => {
-            return ( */}
-        <form className="classes.form">
-          <FormControl margin="normal" required fullWidth>
-            <InputLabel htmlFor="username">Username</InputLabel>
-            <Input id="username" />
-          </FormControl>
+            return (
+              <form className="classes.form">
+                <FormControl margin="normal" required fullWidth>
+                  <InputLabel htmlFor="username">Username</InputLabel>
+                  <Input
+                    id="username"
+                    onChange={event => setUsername(event.target.value)}
+                  />
+                </FormControl>
 
-          <FormControl margin="normal" required fullWidth>
-            <InputLabel htmlFor="email">Email</InputLabel>
-            <Input id="email" type="email" />
-          </FormControl>
+                <FormControl margin="normal" required fullWidth>
+                  <InputLabel htmlFor="email">Email</InputLabel>
+                  <Input
+                    id="email"
+                    type="email"
+                    onChange={event => setEmail(event.target.value)}
+                  />
+                </FormControl>
 
-          <FormControl margin="normal" required fullWidth>
-            <InputLabel htmlFor="password">Password</InputLabel>
-            <Input id="password" type="password" />
-          </FormControl>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="secondary"
-            className={classes.submit}
-          >
-            Register
-          </Button>
+                <FormControl margin="normal" required fullWidth>
+                  <InputLabel htmlFor="password">Password</InputLabel>
+                  <Input
+                    id="password"
+                    type="password"
+                    onChange={event => setPassword(event.target.value)}
+                  />
+                </FormControl>
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  color="secondary"
+                  className={classes.submit}
+                >
+                  Register
+                </Button>
 
-          <Button color="primary" variant="outlined" fullWidth>
-            Previous user? Log in here!
-          </Button>
-        </form>
-        {/* );
+                <Button color="primary" variant="outlined" fullWidth>
+                  Previous user? Log in here!
+                </Button>
+              </form>
+            );
           }}
-        </Mutation> */}
+        </Mutation>
       </Paper>
     </div>
   );
 };
+
+const REGISTER_MUTATION = gql`
+  mutation($username: String!, $email: String!, $password: String!) {
+    createUser(username: $username, email: $email, password: $password) {
+      user {
+        username
+        email
+      }
+    }
+  }
+`;
 
 const styles = theme => ({
   root: {
