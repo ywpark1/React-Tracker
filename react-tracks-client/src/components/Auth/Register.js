@@ -20,10 +20,33 @@ import Slide from '@material-ui/core/Slide';
 import Gavel from '@material-ui/icons/Gavel';
 import VerifiedUserTwoTone from '@material-ui/icons/VerifiedUserTwoTone';
 
-const Register = ({ classes }) => {
+function Transition(props) {
+  return <Slide direction="up" {...props} />;
+}
+
+const Register = ({ classes, setNewUser }) => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [open, setOpen] = useState(false);
+
+  const handleSubmit = async (event, createUser) => {
+    event.preventDefault();
+    // createUser({
+    //   //   variables: { username: username, email: email, password: password }
+    //   //   variables: { username, email, password }
+    // });
+
+    // Without Mutation onCompleted
+    // const res = await createUser();
+    // console.log({ res });
+
+    // setOpen(true);
+
+    // With Mutation onCompleted
+    createUser();
+  };
+
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
@@ -32,10 +55,20 @@ const Register = ({ classes }) => {
         </Avatar>
         <Typography variant="h5">Register</Typography>
 
-        <Mutation mutation={REGISTER_MUTATION}>
-          {() => {
+        <Mutation
+          mutation={REGISTER_MUTATION}
+          variables={{ username, email, password }}
+          onCompleted={data => {
+            console.log({ data });
+            setOpen(true);
+          }}
+        >
+          {(createUser, { loading, error }) => {
             return (
-              <form className="classes.form">
+              <form
+                onSubmit={event => handleSubmit(event, createUser)}
+                className="classes.form"
+              >
                 <FormControl margin="normal" required fullWidth>
                   <InputLabel htmlFor="username">Username</InputLabel>
                   <Input
@@ -66,19 +99,57 @@ const Register = ({ classes }) => {
                   fullWidth
                   variant="contained"
                   color="secondary"
+                  disabled={
+                    loading ||
+                    !(username.trim() && password.trim() && email.trim())
+                  }
                   className={classes.submit}
                 >
-                  Register
+                  {loading ? 'Registering...' : 'Register'}
                 </Button>
 
-                <Button color="primary" variant="outlined" fullWidth>
+                <Button
+                  onClick={() => setNewUser(false)}
+                  color="primary"
+                  variant="outlined"
+                  fullWidth
+                >
                   Previous user? Log in here!
                 </Button>
+
+                {/* Error Handling */}
+                {error && <div>Error</div>}
               </form>
             );
           }}
         </Mutation>
       </Paper>
+
+      {/* Success Dialog */}
+      <Dialog
+        open={open}
+        disableBackdropClick={true}
+        TransitionComponent={Transition}
+      >
+        <DialogTitle>
+          <VerifiedUserTwoTone className={classes.icon} />
+          New Account
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            User {username} successfully created!
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            color="primary"
+            variant="contained"
+            onClick={() => setNewUser(false)}
+          >
+            Login
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };
