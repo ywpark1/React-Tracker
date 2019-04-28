@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import { Mutation } from 'react-apollo';
 import { gql } from 'apollo-boost';
 
+import Error from '../Shared/Error';
+
 import withStyles from '@material-ui/core/styles/withStyles';
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
@@ -118,7 +120,7 @@ const Register = ({ classes, setNewUser }) => {
                 </Button>
 
                 {/* Error Handling */}
-                {error && <div>Error</div>}
+                {error && <Error error={error} />}
               </form>
             );
           }}
