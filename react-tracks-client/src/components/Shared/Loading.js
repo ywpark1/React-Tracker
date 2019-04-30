@@ -1,13 +1,17 @@
-import React from "react";
-import withStyles from "@material-ui/core/styles/withStyles";
-// import CircularProgress from "@material-ui/core/CircularProgress";
+import React from 'react';
+import withStyles from '@material-ui/core/styles/withStyles';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
-const Loading = ({ classes }) => <div>Loading</div>;
+const Loading = ({ classes }) => (
+  <div className={classes.root}>
+    <CircularProgress className={classes.progress} />
+  </div>
+);
 
 const styles = theme => ({
   root: {
-    width: "100vw",
-    textAlign: "center"
+    width: '100vw',
+    textAlign: 'center'
   },
   progress: {
     margin: theme.spacing.unit * 2,
