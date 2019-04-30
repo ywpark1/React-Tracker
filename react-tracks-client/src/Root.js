@@ -3,7 +3,7 @@ import withRoot from './withRoot';
 
 import { Query } from 'react-apollo';
 import { gql } from 'apollo-boost';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 
 import App from './pages/App';
 import Profile from './pages/Profile';
@@ -19,16 +19,14 @@ const Root = () => (
 
       //   return <div>{JSON.stringify(data)}</div>;
       return (
-        <Router>
-          <Fragment>
-            <Header currentUser={currentUser} />
+        <Fragment>
+          <Header currentUser={currentUser} />
 
-            <Switch>
-              <Route path="/profile/:id" component={Profile} />
-              <Route exact path="/" component={App} />
-            </Switch>
-          </Fragment>
-        </Router>
+          <Switch>
+            <Route path="/profile/:id" component={Profile} />
+            <Route exact path="/" component={App} />
+          </Switch>
+        </Fragment>
       );
     }}
   </Query>

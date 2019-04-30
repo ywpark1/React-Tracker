@@ -18,7 +18,7 @@ const Header = ({ classes, currentUser }) => {
         <Link to="/" className={classes.grow}>
           <RadioIcon className={classes.logo} color="secondary" />
           <Typography variant="h5" color="secondary" noWrap>
-            ReactTracks
+            React Tracks
           </Typography>
         </Link>
 

@@ -6,6 +6,8 @@ import * as serviceWorker from './serviceWorker';
 import { ApolloProvider, Query } from 'react-apollo';
 import ApolloClient, { gql } from 'apollo-boost';
 
+import { BrowserRouter as Router } from 'react-router-dom';
+
 import Auth from './components/Auth';
 
 const client = new ApolloClient({
@@ -35,11 +37,13 @@ const IS_LOGGED_IN_QUERY = gql`
 `;
 
 ReactDOM.render(
-  <ApolloProvider client={client}>
-    <Query query={IS_LOGGED_IN_QUERY}>
-      {({ data }) => (data.isLoggedIn ? <Root /> : <Auth />)}
-    </Query>
-  </ApolloProvider>,
+  <Router>
+    <ApolloProvider client={client}>
+      <Query query={IS_LOGGED_IN_QUERY}>
+        {({ data }) => (data.isLoggedIn ? <Root /> : <Auth />)}
+      </Query>
+    </ApolloProvider>
+  </Router>,
   document.getElementById('root')
 );
 
