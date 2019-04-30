@@ -15,11 +15,13 @@ const Root = () => (
       if (loading) return <p>Loading...</p>;
       if (error) return <p>Error :(</p>;
 
+      const currentUser = data.me;
+
       //   return <div>{JSON.stringify(data)}</div>;
       return (
         <Router>
           <Fragment>
-            <Header />
+            <Header currentUser={currentUser} />
 
             <Switch>
               <Route path="/profile/:id" component={Profile} />
