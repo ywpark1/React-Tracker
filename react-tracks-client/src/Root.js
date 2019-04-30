@@ -1,8 +1,13 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import withRoot from './withRoot';
 
 import { Query } from 'react-apollo';
 import { gql } from 'apollo-boost';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+
+import App from './pages/App';
+import Profile from './pages/Profile';
+import Header from './components/Shared/Header';
 
 const Root = () => (
   <Query query={ME_QUERY}>
@@ -10,7 +15,19 @@ const Root = () => (
       if (loading) return <p>Loading...</p>;
       if (error) return <p>Error :(</p>;
 
-      return <div>{JSON.stringify(data)}</div>;
+      //   return <div>{JSON.stringify(data)}</div>;
+      return (
+        <Router>
+          <Fragment>
+            <Header />
+
+            <Switch>
+              <Route path="/profile/:id" component={Profile} />
+              <Route exact path="/" component={App} />
+            </Switch>
+          </Fragment>
+        </Router>
+      );
     }}
   </Query>
 );
