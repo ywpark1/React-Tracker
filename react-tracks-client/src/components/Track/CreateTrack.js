@@ -23,6 +23,8 @@ import Fab from '@material-ui/core/Fab';
 
 import Error from '../Shared/Error';
 
+import { GET_TRACKS_QUERY } from '../../pages/App';
+
 const CreateTrack = ({ classes }) => {
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState('');
@@ -86,6 +88,7 @@ const CreateTrack = ({ classes }) => {
           setSubmitting(false);
           setOpen(false);
         }}
+        refetchQueries={() => [{ query: GET_TRACKS_QUERY }]}
       >
         {(createTrack, { loading, error }) => {
           if (error) return <Error error={error} />;
